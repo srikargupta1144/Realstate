@@ -1,6 +1,7 @@
+import { errorHandler } from "../../utils/error.js";
 import User from "../model/user.model.js";
 import bcrypt from 'bcrypt';
-export const signup=async(req,res)=>{
+export const signup=async(req,res,next)=>{
     const { username, email, password }= req.body
     //salt 10 number will added with our password and encrypt or hash password
     const hashedPassword =bcrypt.hashSync(password,10)
@@ -12,6 +13,6 @@ export const signup=async(req,res)=>{
       // But password wasn't encrypted
       res.status(201).json('user created successfully')
     }catch(error){
-        res.status(500).json(error.message);
+        next(error); 
     }
 };

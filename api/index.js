@@ -31,3 +31,14 @@ app.listen(port, () => {
 
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
+
+//middleware have 4 param error from input of midddleware, req,res from browser or client, next used to next middleware
+app.use((err,req,res,next)=>{
+  const statusCode =err.statusCode || 500;
+  const message =err.message || 'Internal Server error';
+  return res.status(statusCode).json({
+    success:false,
+    statusCode,
+    message,
+  })
+})
